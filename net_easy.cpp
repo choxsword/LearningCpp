@@ -3,14 +3,13 @@ using namespace std;
 
 class A
 {
-	char a[2];
-	virtual void fun() {};
+	
 };
 
-class B :public virtual A
+class B :public  A
 {
-	char a[2];
-	char b[2];
+	A b;
+	double a;
 };
 class C :public virtual B
 {
@@ -18,10 +17,12 @@ class C :public virtual B
 	char b[2];
 	char c[2];
 };
+enum  fuck :unsigned long long { a = 666 };
 
 int main()
 {
-
+	
+	cout << sizeof(A) << endl << sizeof(B) << endl;
 	
 	return 0;
 }
