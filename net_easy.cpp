@@ -1,40 +1,68 @@
 #include<bits/stdc++.h>
+
 using namespace std;
 
 namespace xzj
 {
-	
+	int n;
+	long long w;
+	map<pair<int, long long >, long long> mmap;
+	vector<int> v(n + 1);
+	vector<int> M(w + 1, 1);
+	void f1()
+	{
 
+
+		for (int i = 1;i <= n;++i)
+		{
+			for (int j = w;j >= 0;--j)
+			{
+				int rhs, lhs;
+				if (j - v[i] < 0)
+					lhs = 0;
+				else
+				{
+					lhs = M[j - v[i]];
+				}
+				rhs = M[j];
+
+				M[j] = rhs + lhs;
+			}
+		}
+		cout << M[w];
+	}
+
+	long long get(int index, long long weight)
+	{
+		if (weight < 0)
+			return 0;
+		if (weight == 0||index==0)
+			return 1;
+		
+		auto&& p = make_pair(index, weight);
+		if (mmap.find(p)!= mmap.end())
+			return mmap[p];
+		else
+		{
+			return mmap[p]=get(index - 1, w - v[index]) + get(index - 1, w);
+		}
+	}
 }
+
 
 int main()
 {
 	using namespace xzj;
-	int n;
-	int res=1;
-	vector<int> judge;
-	int f = 0;
-	cin >> n;
-	if (n % 3 == 0)
+
+	cin >> n >> w;
+	v.resize(n + 1);
+	for (int i = 1;i <= n;++i)
 	{
-		res = pow(3, n / 3);
-		cout << res;
+		int k;
+		cin >> k;
+		v[i] = k;
+	}
+	cout << get(n, w);
 		return 0;
-	}
-	while (n != 4 && n != 2)
-	{
-		judge.push_back(3);
-		n -= 3;
-	}
-	while (n!=0)
-	{
-		judge.push_back(2);
-		n = n - 2;
-	}
-	for (auto&i : judge)
-	{
-		res *=i;
-	}
-	cout << res;
-	return 0;
 }
+
